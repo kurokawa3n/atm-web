@@ -2,10 +2,7 @@ package th.ac.ku.atm.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import th.ac.ku.atm.model.BankAccount;
 import th.ac.ku.atm.service.BankAccountService;
 
@@ -28,9 +25,27 @@ public class BankAccountController {
     }
 
     @PostMapping
-    public String registerCustomer(@ModelAttribute BankAccount bankAccount, Model model) {
-        bankAccountService.createBankAccount(bankAccount);
-        model.addAttribute("allBankAccounts", bankAccountService.getBankAccount());
+    public String openAccount(@ModelAttribute BankAccount bankAccount, Model model) {
+        bankAccountService.openAccounts(bankAccount);
+        model.addAttribute("bankaccounts",bankAccountService.getBankAccounts());
         return "redirect:bankaccount";
     }
+
+    @GetMapping("/edit/{id}")
+    public String getEditBankAccountPage(@PathVariable int id, Model model) {
+        BankAccount account = bankAccountService.getBankAccounts(id);
+        model.addAttribute("bankAccount", account);
+        return "bankaccount-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editAccount(@PathVariable int id,
+                              @ModelAttribute BankAccount bankAccount,
+                              Model model) {
+        bankAccountService.editBankAccounts(bankAccount);
+        model.addAttribute("bankaccounts",bankAccountService.getBankAccounts());
+        return "redirect:/bankaccount";
+    }
+
+
 }

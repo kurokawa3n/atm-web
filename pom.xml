@@ -74,6 +74,10 @@
 					<target>8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>th.ac.ku</groupId>
+				<artifactId>bankaccount</artifactId>
+			</plugin>
 
 		</plugins>
 	</build>
